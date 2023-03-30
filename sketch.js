@@ -1,6 +1,7 @@
 var xoff = 0;
 var randomAngle;
 var d;
+var de;
 var customCanvas;
 var touch;
 var touchUp;
@@ -34,33 +35,46 @@ function setup() {
   customCanvas = createCanvas(800, windowHeight);
   customCanvas.position((windowWidth - 800)/2)
   background(20);
-
   angleMode(DEGREES);
+  translate(width/2, height/2);
   randomAngle = random(1, 90);
-  d = random(100, 120);
+
+   // reference cartesian plane
+   strokeWeight(.5);
+   stroke(0, 255, 0);
+   line(-width, 0 , width, 0);
+   line(0, -height , 0, height);
 
   stroke(255);
   strokeWeight(8);
-  createPoints(windowWidth, windowHeight, d);
+  // createPoints(windowWidth, windowHeight, d);
+  createPoints2(width, height);
 
-  // noFill();
-  // strokeWeight(.5);
+  noFill();
+  strokeWeight(.5);
   // createShape(windowWidth, windowHeight, d);
+  // beginShape();
+  // createShape2(width, height);
+  // endShape();
 }
 
 function draw() {
   console.log(touch);
-  frameRate(30);
+  frameRate(10);
+  translate(width/2, height/2);
+  rotate(random(0, touch*100))
 
-  rotate(random(1,5));
-
-  randomAngle = random(1, 90);
-  d = random(100, 120);
-
+  de = random(touchUp*100);
   noFill();
   strokeWeight(.1);
-  stroke(220);
-  createShape(1200, windowHeight, d);
+  stroke(255);
+  beginShape();
+    createShape2(width, height, de);
+  endShape();
+
+  beginShape();
+    createShape2(-width, -height, de);
+  endShape();
 }
 
 function createPoints(width, height, d){
@@ -87,6 +101,22 @@ function createPoints(width, height, d){
   point(width*.65, height*.3);
 
   point(width*.57 - (d/2)*cos(randomAngle), height*.3 - d*sin(randomAngle));
+}
+
+function createPoints2(width, height){
+  point(0, -(height/2)*.85);
+  point((width/2)*.75, -(height/2)*.55);
+  point((width/2)*.65, -(height/2)*.25);
+  point((width/2)*.40, -(height/2)*.05);
+  point((width/2)*.15, (height/2)*.15);
+  point((width/2)*.50, (height/2)*.35);
+  point(0, (height/2)*.85);
+  point(-(width/2)*.4, (height/2)*.5);
+  point(-(width/2)*.65, (height/2)*.55);
+  point(-(width/2)*.8, (height/2)*.05);
+  point(-(width/2)*.95, -(height/2)*.15);
+  point(-(width/2)*.85, -(height/2)*.45);
+  point(-(width/2)*.55, -(height/2)*.75);
 }
 
 function createShape(width, height, d){
@@ -119,4 +149,34 @@ function createShape(width, height, d){
     curveVertex(width*.45, height*.15);
     curveVertex(width*.45, height*.15);
   endShape();
+}
+
+function createShape2(width, height, de){
+  curveVertex(0, -(height/2)*.85 + de);
+  curveVertex(0, -(height/2)*.85 + de);
+
+  curveVertex((width/2)*.75 + de, -(height/2)*.55 + de);
+  curveVertex((width/2)*.65 + de, -(height/2)*.25 + de);
+  curveVertex((width/2)*.40 + de, -(height/2)*.05 + de);
+
+  // curveVertex(mouseX*.5, mouseY*.5);
+
+  curveVertex((width/2)*.15 + de, (height/2)*.15) + de;
+  curveVertex((width/2)*.50 + de, (height/2)*.35) + de;
+  curveVertex(0 + de, (height/2)*.85) + de;
+  
+  // curveVertex(touch*100, touchUp*100);
+
+  curveVertex(-(width/2)*.4 + de, (height/2)*.5); + de
+  curveVertex(-(width/2)*.65 + de, (height/2)*.55) + de;
+  curveVertex(-(width/2)*.8 + de, (height/2)*.05) + de;
+  
+  // curveVertex(mouseX, -mouseY);
+
+  curveVertex(-(width/2)*.95 + de, -(height/2)*.15 + de);
+  curveVertex(-(width/2)*.85 + de, -(height/2)*.45 + de);
+  curveVertex(-(width/2)*.55 + de, -(height/2)*.75 + de);
+
+  curveVertex(0, -(height/2)*.85 + de);
+  curveVertex(0, -(height/2)*.85 + de);
 }
